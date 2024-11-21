@@ -32,6 +32,11 @@ const schema = new mongoose.Schema(
             type: String,
             default: "img.png"
         },
+        status:{
+            type:String,
+            enum:["active","inactive"],
+            default:"active"
+        }
      
     },
     {

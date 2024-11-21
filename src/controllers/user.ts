@@ -26,7 +26,7 @@ export const registerUser: any = async (
       res.cookie(token, "token", {
         httpOnly:true
       });
-      return res.json({ "message": `Welcome ${User.name} `, "token":token , type:"success", name :User.name, role:User.role, email:User.email,userId :User._id });
+      return res.json({ "message": ` Account Created Successfully  🎉🎉, Welcome  ${User.name}`, "token":token , type:"success", name :User.name, role:User.role, email:User.email,userId :User._id });
 
     }
     else{
@@ -38,6 +38,35 @@ export const registerUser: any = async (
     }
   } catch (error) {
     console.error("Error in registerUser:", error);
+    res.status(500).json({ message: "An error occurred", error });
+  }
+};
+export const updateUser: any = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    const { id } = req.params;
+    const { name, email, status, role } = req.body;
+    const isUser = await user.findById(id);
+
+    if (!isUser) {
+      return res.json({ message: "User not Found", type: "error" });
+    } else {
+      const updatedUser = await user.findByIdAndUpdate(
+        id,
+        { name, email, status, role },
+        { new: true }
+      );
+      return res.json({
+        message: `Account Updated Successfully 🎉`,
+        user: updatedUser,
+      });
+    }
+  } catch (error) {
+    console.error("Error in Update User:", error);
     res.status(500).json({ message: "An error occurred", error });
   }
 };
@@ -136,7 +165,7 @@ export const LoginUser: any = async (
       return res.json({"message":"Wrong Credientials", type:"error", status:400})
     }
     const token = Jwt.sign({ id: User.id }, "SecretKey");
-    return res.json({ "message": `Welcome ${User.name} `, "token":token , type:"success", name :User.name, role:User.role, email:User.email,userId :User._id });
+    return res.json({ "message": ` Welcome  ${User.name}, 🎉 🎉 `, "token":token , type:"success", name :User.name, role:User.role, email:User.email,userId :User._id });
   } else {
     console.log("User not");
      res.json({

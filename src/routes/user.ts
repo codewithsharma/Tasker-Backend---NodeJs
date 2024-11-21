@@ -8,6 +8,7 @@ import {
   LoginUser,
   LogoutUser,
   registerUser,
+  updateUser,
 } from "../controllers/user";
 
 const router = express.Router();
@@ -17,6 +18,8 @@ router.use(express.json());
 
 // User registration
 router.post("/register", registerUser);
+
+router.put("/:id", updateUser);
 
 // Get all users
 router.get("/get-all-users", getAllUsers); // Changed endpoint for clarity
@@ -29,7 +32,7 @@ router.get("/:id", getUserDetail); // Changed endpoint for clarity
 router.get("/details/:id", getUserDetailWithTasks); // Changed endpoint for clarity
 
 // Delete user by ID
-router.delete("/users/:id", deleteUser); // Changed endpoint for clarity
+router.delete("/:id", deleteUser); // Changed endpoint for clarity
 
 // User login
 router.post("/login", LoginUser);
